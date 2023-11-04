@@ -2,28 +2,33 @@ package com.fmartinier.killerparty.ui.party
 
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.fmartinier.killerparty.databinding.FragmentPlayerBinding
 import com.fmartinier.killerparty.model.Player
-import com.fmartinier.killerparty.utils.showDeleteConfirmationDialog
+import java.net.URLEncoder
 
 class PlayerViewHolder(
-    private val fragmentPlayerBinding: FragmentPlayerBinding,
     private val context: Context,
+    private val fragmentPlayerBinding: FragmentPlayerBinding,
+    private val onPlayerRemoved: (Player) -> Unit = {}
 ) : RecyclerView.ViewHolder(fragmentPlayerBinding.root) {
-
-    lateinit var onPlayerRemoved: ((Player) -> Unit)
 
     fun bindPlayer(player: Player) {
         fragmentPlayerBinding.playerName.text = player.name
-        fragmentPlayerBinding.phone.text = player.phone
+        fragmentPlayerBinding.playerPhone.text = player.phone
+        fragmentPlayerBinding.deleteIcon.setOnClickListener { onPlayerRemoved(player) }
 
-        fragmentPlayerBinding.deleteIcon.setOnClickListener {
-            showDeleteConfirmationDialog(
-                context = context,
-                itemToRemove = player,
-                function = onPlayerRemoved
+        Glide.with(context)
+            .load(
+                "https://api.dicebear.com/7.x/adventurer-neutral/png?seed=${
+                    URLEncoder.encode(
+                        player.name,
+                        "UTF-8"
+                    )
+                }"
             )
-        }
+            .circleCrop()
+            .into(fragmentPlayerBinding.playerAvatar)
     }
 
 }

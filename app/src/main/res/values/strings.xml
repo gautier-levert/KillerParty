@@ -60,4 +60,5 @@
     <string name="challenge_pryapisme">Succeed in making him say “pryapism” 3 times during the game</string>
     <string name="challenge_grimace">Have a grimace contest with you</string>
     <string name="challenge_help">Helping you achieve your challenge</string>
+    <string name="player_avatar_description">Player avatar</string>
 </resources>

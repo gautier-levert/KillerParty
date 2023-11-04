@@ -60,4 +60,5 @@
     <string name="challenge_pryapisme">Réussir à lui faire dire "pryapisme" 3 fois durant la partie</string>
     <string name="challenge_grimace">Faire un concours de grimace avec vous</string>
     <string name="challenge_help">Vous aider à réaliser votre défi</string>
+    <string name="player_avatar_description">Avatar du joueur</string>
 </resources>

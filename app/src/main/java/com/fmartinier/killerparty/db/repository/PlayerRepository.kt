@@ -46,7 +46,7 @@ class PlayerRepository(context: Context) {
             "SELECT p.$COLUMN_ID, p.$COLUMN_NAME, p.$COLUMN_PHONE, p.$COLUMN_STATE, p.$COLUMN_SCORE " +
                     "FROM $TABLE_PLAYER_TO_PARTY pp " +
                     "JOIN $TABLE_PLAYERS p on p.$COLUMN_ID = pp.$COLUMN_PLAYER_ID " +
-                    "WHERE pp.$COLUMN_PARTY_ID = ${party.id} "
+                    "WHERE pp.$COLUMN_PARTY_ID = ${party.id} ORDER BY p.$COLUMN_NAME ASC"
 
         return mapQueryToPlayers(selectQuery)
     }

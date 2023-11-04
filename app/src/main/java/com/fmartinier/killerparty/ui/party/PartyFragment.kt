@@ -7,6 +7,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,11 +33,12 @@ class PartyFragment : Fragment() {
 
     private lateinit var binding: FragmentPartyBinding
 
-    private val players: MutableList<Player> = mutableListOf()
+    private var players: List<Player> = listOf()
     private lateinit var party: Party
     private lateinit var partyService: PartyService
     private lateinit var playerService: PlayerService
     private lateinit var smsService: SmsService
+    private lateinit var adapter: PlayerViewAdapter
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
@@ -52,19 +54,13 @@ class PartyFragment : Fragment() {
         playerService = PlayerService(requiredContext)
         smsService = SmsService(requiredContext)
         party = partyService.findOrCreate()
-        fillAllPlayers()
-
-        binding.players.apply {
-            layoutManager = LinearLayoutManager(context)
-            val adapter = PlayerViewAdapter(players, context)
-            adapter.onPlayerRemoved = {
-                playerService.deleteById(it.id)
-                players.remove(it)
-                adapter.notifyDataSetChanged()
-                manageHelperVisibility()
-            }
-            this.adapter = adapter
+        adapter = PlayerViewAdapter(requiredContext) {
+            playerService.deleteById(it.id)
+            fillAllPlayers()
         }
+
+        binding.players.layoutManager = LinearLayoutManager(requiredContext)
+        binding.players.adapter = adapter
 
         // Ajouter un joueur manuellement (ouvrir une fenêtre modale pour écrire les infos du joueur)
         binding.addPlayerButton.setOnClickListener {
@@ -98,6 +94,8 @@ class PartyFragment : Fragment() {
             }
         }
 
+        fillAllPlayers()
+
         return binding.root
     }
 
@@ -119,7 +117,6 @@ class PartyFragment : Fragment() {
                     party = party
                 )
                 fillAllPlayers()
-                binding.players.adapter?.notifyItemInserted(players.size)
             } else {
                 Toast.makeText(
                     context,
@@ -184,8 +181,9 @@ class PartyFragment : Fragment() {
     }
 
     private fun fillAllPlayers() {
-        this.players.clear()
-        this.players.addAll(playerService.findAllFromParty(party))
+        players = playerService.findAllFromParty(party)
+        adapter.updateContent(players)
+        Log.d("PLAYER", "Found ${players.size} players")
         manageHelperVisibility()
     }
 

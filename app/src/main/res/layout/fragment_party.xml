@@ -6,17 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".ui.party.PartyFragment">
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/players"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/noPartyHelperMessage"
+        layout="@layout/text_with_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="58dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <com.nambimobile.widgets.efab.ExpandableFabLayout
+        android:id="@+id/player_action_button"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -64,13 +74,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
-
-        <include
-            android:id="@+id/noPartyHelperMessage"
-            layout="@layout/text_with_arrow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
 
     </com.nambimobile.widgets.efab.ExpandableFabLayout>
 
